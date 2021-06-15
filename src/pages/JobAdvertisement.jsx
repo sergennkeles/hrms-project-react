@@ -7,9 +7,9 @@ export default function JobAdvertisement() {
   useEffect(() => {
     let jobAdvertisementService = new JobAdversimentService();
     jobAdvertisementService
-      .getJobAdvertisements()
-      .then((result) => setjobAdvertisements(result.data.data), []);
-  });
+      .getJobAdvertisementWithDetails()
+      .then((result) => setjobAdvertisements(result.data.data));
+  }, []);
 
   return (
     <div>
@@ -29,7 +29,7 @@ export default function JobAdvertisement() {
               <Table.Cell>{jobAdvertisement.description}</Table.Cell>
               <Table.Cell>{jobAdvertisement.minSalary}</Table.Cell>
               <Table.Cell>{jobAdvertisement.openPositionNumber}</Table.Cell>
-              <Table.Cell>{jobAdvertisement.job.jobsName}</Table.Cell>
+              <Table.Cell>{jobAdvertisement.jobsName}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

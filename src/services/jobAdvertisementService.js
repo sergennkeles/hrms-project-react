@@ -23,4 +23,11 @@ export default class JobAdvertisementService {
       "http://localhost:8080/api/jobadvertisements/getActiveAdvertisement"
     );
   }
+
+  add(values) {
+    return axios.post(
+      "http://localhost:8080/api/jobadvertisements/add",
+      values
+    );
+  }
 }

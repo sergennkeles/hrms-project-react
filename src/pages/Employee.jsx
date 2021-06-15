@@ -8,8 +8,9 @@ export default function Employee() {
     let employeeService = new EmployeeService();
     employeeService
       .getEmployees()
-      .then((result) => setemployees(result.data.data), []);
-  });
+      .then((result) => setemployees(result.data.data));
+  }, []);
+  console.log("employee", employees);
   return (
     <div>
       <Table celled>

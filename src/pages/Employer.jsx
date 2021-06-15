@@ -7,8 +7,8 @@ export default function Employer() {
     let employerService = new EmployerService();
     employerService
       .getEmployers()
-      .then((result) => setEmployers(result.data.data), []);
-  });
+      .then((result) => setEmployers(result.data.data));
+  }, []);
   return (
     <div>
       <Table celled>

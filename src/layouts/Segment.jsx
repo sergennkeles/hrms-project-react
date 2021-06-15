@@ -7,26 +7,29 @@ import SearchButton from "../components/SearchButton";
 import Employee from "../pages/Employee";
 import Employer from "../pages/Employer";
 import JobAdvertisement from "../pages/JobAdvertisement";
+import { Route } from "react-router-dom";
+import JobAdvertisementAddForm from "../forms/JobAdvertisementAddForm";
 
 const SegmentExampleHorizontalSegments = () => (
   <div>
     <Segment.Group horizontal>
-      <Segment style={({ padding: "100em" }, { backgroundColor: "lightblue" })}>
-        <SearchBox />
-        <SelectBox />
-        <SearchButton />
+      <Segment style={{ backgroundColor: "lightblue" }}>
+        <Route exact path="/" component={SearchBox} />
+        <Route exact path="/" component={SelectBox} />
+        <Route exact path="/" component={SearchButton} />
       </Segment>
     </Segment.Group>
     <Segment.Group horizontal>
       <Segment>
-        <Employer />
+        <Route exact path="/" component={JobAdvertisement} />
+        <Route exact path="/advertisement" component={JobAdvertisement} />{" "}
+        <Route
+          exact
+          path="/jobadvertisement/add"
+          component={JobAdvertisementAddForm}
+        />
       </Segment>
-      <Segment>
-        <Employee />
-      </Segment>
-      <Segment>
-        <JobAdvertisement />
-      </Segment>
+      <Segment></Segment>
     </Segment.Group>
     <Segment.Group>
       <Segment>
