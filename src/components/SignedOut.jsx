@@ -1,7 +1,5 @@
-import Reacti from "react";
-import { NavLink, Route } from "react-router-dom";
+import React from "react";
 import { Button, Menu } from "semantic-ui-react";
-import LoginForm from "../pages/Login";
 
 export default function SignedOut(props) {
   return (

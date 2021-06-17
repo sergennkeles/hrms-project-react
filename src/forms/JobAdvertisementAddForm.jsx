@@ -5,10 +5,9 @@ import JobService from "../services/jobService";
 import WorkingTimeService from "../services/workingTime";
 import WorkingTypeService from "../services/workingType";
 import * as Yup from "yup";
-import { Label, Input, Button, TextArea } from "semantic-ui-react";
+import { Label, Input, Button, TextArea, Form } from "semantic-ui-react";
 import JobAdvertisementService from "../services/jobAdvertisementService";
-import { values } from "lodash";
-import { DateFromTime } from "es-abstract/es5";
+import { toast } from "react-toastify";
 
 export default function JobAdvertisementAddForm() {
   const [cities, setCities] = useState([]);
@@ -35,6 +34,13 @@ export default function JobAdvertisementAddForm() {
       setWorkingTypes(result.data.data);
     });
   }, []);
+
+  const location = cities.map((city) => ({
+    key: city.id,
+    value: city.cityName,
+    flag: "tr",
+    text: city.cityName,
+  }));
 
   const jobAdvertisementService = new JobAdvertisementService();
 
@@ -64,6 +70,7 @@ export default function JobAdvertisementAddForm() {
       values.maxSalary = parseInt(values.maxSalary);
       jobAdvertisementService.add(values).then((result) => {
         console.log(result.data);
+        toast.success(result.data.message);
       });
     },
     validationSchema: Yup.object({
@@ -78,10 +85,10 @@ export default function JobAdvertisementAddForm() {
         .typeError("Bu alana metinsel veri girilemez")
         .min(1, "Açık pozisyon sayısı 1'den küçük olamaz")
         .required("Bu alan boş bırakılamaz"),
-      cityId: Yup.number().required("Bu alan boş bırakılamaz"),
-      jobId: Yup.number().required("Bu alan boş bırakılamaz"),
-      workingTimeId: Yup.number().required("Bu alan boş bırakılamaz"),
-      workingTypeId: Yup.number().required("Bu alan boş bırakılamaz"),
+      city: Yup.object().required("Bu alan boş bırakılamaz"),
+      job: Yup.object().required("Bu alan boş bırakılamaz"),
+      workingTime: Yup.object().required("Bu alan boş bırakılamaz"),
+      workingType: Yup.object().required("Bu alan boş bırakılamaz"),
       deadLineDate: Yup.date()
         .typeError("Lütfen geçerli bir tarih formatı girin")
         .required("Bu alan boş bırakılamaz"),
@@ -90,11 +97,12 @@ export default function JobAdvertisementAddForm() {
   console.log("formik values", formik.values);
   return (
     <div>
-      <form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit}>
         <div className="form-control">
           <Label htmlFor="description">Açıklama</Label>
-          <TextArea
+          <Form.Field
             placeholder="İlan açıklaması"
+            control={TextArea}
             style={{ minHeight: 250 }}
             onChange={formik.handleChange}
             id="description"
@@ -104,9 +112,9 @@ export default function JobAdvertisementAddForm() {
           <div>{formik.errors.description}</div>
         </div>
         <div className="form-control">
-          <Label htmlFor="workingTimeId">Çalışma Zamanı</Label>
+          <Label htmlFor="workingTime.id">Çalışma Zamanı</Label>
           <select
-            id="workingTimeId"
+            id="workingTime.id"
             name="workingTime.id"
             onChange={formik.handleChange}
             value={formik.values.workingTimeId}
@@ -121,12 +129,12 @@ export default function JobAdvertisementAddForm() {
               </option>
             ))}
           </select>
-          <div>{formik.errors.workingTimeId}</div>
+          <div>{formik.errors.workingTime}</div>
         </div>
         <div className="form-control">
-          <Label htmlFor="workingTypeId">Çalışma Tipi</Label>
+          <Label htmlFor="workingType.id">Çalışma Tipi</Label>
           <select
-            id="workingTypeId"
+            id="workingType.id"
             name="workingType.id"
             value={formik.values.workingTypeId}
             onChange={formik.handleChange}
@@ -141,12 +149,12 @@ export default function JobAdvertisementAddForm() {
               </option>
             ))}
           </select>
-          <div>{formik.errors.workingTypeId}</div>
+          <div>{formik.errors.workingType}</div>
         </div>
         <div className="form-control">
-          <Label htmlFor="job">Pozisyon</Label>
+          <Label htmlFor="job.id">Pozisyon</Label>
           <select
-            id="job"
+            id="job.id"
             name="job.id"
             value={formik.values.jobId}
             onChange={formik.handleChange}
@@ -161,13 +169,13 @@ export default function JobAdvertisementAddForm() {
               </option>
             ))}
           </select>
-          <div>{formik.errors.jobId}</div>
+          <div>{formik.errors.job}</div>
         </div>
         <div className="form-control">
-          <Label htmlFor="city">Lokasyon</Label>
+          <Label htmlFor="city.id">Lokasyon</Label>
           <select
             name="city.id"
-            id="city"
+            id="city.id"
             value={formik.values.city.id}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -179,26 +187,30 @@ export default function JobAdvertisementAddForm() {
               </option>
             ))}
           </select>
-          <div>{formik.errors.cityId}</div>
+          <div>{formik.errors.city}</div>
         </div>
         <div className="form-control">
           <Label htmlFor="positionNumber">Açık Pozisyon Sayısı</Label>
-          <Input
+          <Form.Field
             type="number"
             id="positionNumber"
+            control={Input}
             name="openPositionNumber"
             onChange={formik.handleChange}
             value={formik.values.openPositionNumber}
+            placeholder="Açık pozisyon sayısı"
             onBlur={formik.handleBlur}
           />
           <div>{formik.errors.openPositionNumber}</div>
         </div>
         <div className="form-control">
           <Label htmlFor="minSalary">Minimum Maaş</Label>
-          <Input
+          <Form.Field
             type="text"
+            control={Input}
             id="minSalary"
             name="minSalary"
+            placeholder="Minimum maaş miktarı"
             onChange={formik.handleChange}
             value={formik.values.minSalary}
             onBlur={formik.handleBlur}
@@ -207,10 +219,12 @@ export default function JobAdvertisementAddForm() {
         </div>
         <div className="form-control">
           <Label htmlFor="maxSalary">Maximum Maaş</Label>
-          <Input
+          <Form.Field
             type="text"
+            control={Input}
             id="maxSalary"
             name="maxSalary"
+            placeholder="Maximum maaş miktarı"
             onChange={formik.handleChange}
             value={formik.values.maxSalary}
             onBlur={formik.handleBlur}
@@ -219,21 +233,25 @@ export default function JobAdvertisementAddForm() {
         </div>
         <div className="form-control">
           <Label htmlFor="deadLineDate">Son Başvuru Tarihi</Label>
-          <Input
+          <Form.Field
             type="date"
+            control={Input}
             id="deadLineDate"
             name="deadLineDate"
             onChange={formik.handleChange}
             value={formik.values.deadLineDate}
             onBlur={formik.handleBlur}
           />
-          <div>{formik.errors.deadLineDate}</div>
+          <div basic color="red" pointing>
+            {formik.errors.deadLineDate}
+          </div>
         </div>
         <div className="form-control">
           <Label htmlFor="createdDate">Oluşturulma Tarihi</Label>
-          <Input
+          <Form.Field
             type="date"
             id="createdDate"
+            control={Input}
             name="createdDate"
             onChange={formik.handleChange}
             value={formik.values.createdDate}
@@ -242,7 +260,7 @@ export default function JobAdvertisementAddForm() {
           <div>{formik.errors.createdDate}</div>
         </div>
         <Button type="submit">Gönder</Button>
-      </form>
+      </Form>
     </div>
   );
 }

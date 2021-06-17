@@ -23,7 +23,16 @@ export default class JobAdvertisementService {
       "http://localhost:8080/api/jobadvertisements/getActiveAdvertisement"
     );
   }
-
+  getById(id) {
+    return axios.get(
+      "http://localhost:8080/api/jobadvertisements/getById?id=" + id
+    );
+  }
+  getPassiveobAdvertisements() {
+    return axios.get(
+      "http://localhost:8080/api/jobadvertisements/getPassiveAdvertisement"
+    );
+  }
   add(values) {
     return axios.post(
       "http://localhost:8080/api/jobadvertisements/add",

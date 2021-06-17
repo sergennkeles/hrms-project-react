@@ -1,14 +1,16 @@
 import React from "react";
-import { Grid, Segment } from "semantic-ui-react";
+import { Segment, Grid } from "semantic-ui-react";
 import CardExampleHeaderCard from "../components/CommentCard";
 import SearchBox from "../components/SearchBox";
 import SelectBox from "../components/SelectBox";
 import SearchButton from "../components/SearchButton";
-import Employee from "../pages/Employee";
-import Employer from "../pages/Employer";
 import JobAdvertisement from "../pages/JobAdvertisement";
 import { Route } from "react-router-dom";
 import JobAdvertisementAddForm from "../forms/JobAdvertisementAddForm";
+import PassiveAdvertisements from "../forms/PassiveJobAdvertisements";
+import JobAdvertisementConfirm from "../forms/JobAdvertisementConfirm";
+import SuggestionAds from "../components/SuggestionAds";
+import JobAdvertisementDetail from "../pages/JobAdvertisementDetail";
 
 const SegmentExampleHorizontalSegments = () => (
   <div>
@@ -19,18 +21,46 @@ const SegmentExampleHorizontalSegments = () => (
         <Route exact path="/" component={SearchButton} />
       </Segment>
     </Segment.Group>
-    <Segment.Group horizontal>
-      <Segment>
-        <Route exact path="/" component={JobAdvertisement} />
-        <Route exact path="/advertisement" component={JobAdvertisement} />{" "}
-        <Route
-          exact
-          path="/jobadvertisement/add"
-          component={JobAdvertisementAddForm}
-        />
-      </Segment>
-      <Segment></Segment>
-    </Segment.Group>
+    <Grid columns={2} divided>
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <Segment.Group horizontal>
+            <Segment>
+              <Route exact path="/" component={JobAdvertisement} />
+              <Route
+                exact
+                path="/jobadvertisement"
+                component={JobAdvertisement}
+              />{" "}
+              <Route
+                exact
+                path="/jobadvertisement/add"
+                component={JobAdvertisementAddForm}
+              />
+              <Route
+                exact
+                path="/jobadvertisement/passive"
+                component={PassiveAdvertisements}
+              />
+              <Route
+                path="/jobadvertisement/confirm/:id"
+                component={JobAdvertisementConfirm}
+              />
+              <Route
+                path="/jobadvertisement/detail/:id"
+                component={JobAdvertisementDetail}
+              />
+            </Segment>
+            <Grid.Row>
+              <Segment>
+                <SuggestionAds />
+              </Segment>
+            </Grid.Row>
+          </Segment.Group>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+
     <Segment.Group>
       <Segment>
         <CardExampleHeaderCard />

@@ -1,8 +1,5 @@
 import React from "react";
 import { Segment, Grid, List } from "semantic-ui-react";
-import Employee from "../pages/Employee";
-import Employer from "../pages/Employer";
-import JobAdvertisement from "../pages/JobAdvertisement";
 
 const Footer = () => (
   <Segment.Group horizontal>

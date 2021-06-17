@@ -21,6 +21,12 @@ export default function SignedIn(props) {
               icon="file alternate outline"
             />
             <Dropdown.Item
+              as={NavLink}
+              to={"/jobadvertisement/passive"}
+              text="Onay Bekleyen İlanlar"
+              icon="arrow alternate circle left outline"
+            />
+            <Dropdown.Item
               onClick={props.signOut}
               text="Çıkış Yap"
               icon="sign-out"
