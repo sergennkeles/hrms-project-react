@@ -18,7 +18,13 @@ export default function SelectBox() {
 
   return (
     <div>
-      <Dropdown search selection placeholder="Şehir seçiniz" options={abc} />
+      <Dropdown
+        style={{ marginTop: "1em" }}
+        search
+        selection
+        placeholder="Şehir seçiniz"
+        options={abc}
+      />
     </div>
   );
 }

@@ -1,36 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { List } from "semantic-ui-react";
+import { List, Segment } from "semantic-ui-react";
 import JobAdvertisementService from "../services/jobAdvertisementService";
-
+import JobAdvertisementDetailCard from "../components/JobAdvertisementDetailCard";
 export default function JobAdvertisementDetail() {
+  let { id } = useParams();
+  const [adsDetails, setAdsDetails] = useState([]);
+  useEffect(() => {
+    let jobAdvertisementService = new JobAdvertisementService();
+    jobAdvertisementService.getById(id).then((result) => {
+      setAdsDetails(result.data.data);
+    });
+  }, [id]);
   return (
     <div>
-      <List as="ol">
-        <List.Item as="li" value="*">
-          Signing Up
-        </List.Item>
-        <List.Item as="li" value="*">
-          User Benefits
-        </List.Item>
-        <List.Item as="li" value="*">
-          User Types
-          <List.Item as="ol">
-            <List.Item as="li" value="-">
-              Admin
-            </List.Item>
-            <List.Item as="li" value="-">
-              Power User
-            </List.Item>
-            <List.Item as="li" value="-">
-              Regular User
-            </List.Item>
-          </List.Item>
-        </List.Item>
-        <List.Item as="li" value="*">
-          Deleting Your Account
-        </List.Item>
-      </List>
+      <Segment.Group horizontal>
+        <Segment>
+          <List as="ol" key={adsDetails.id}>
+            <List.Item>{adsDetails.job?.jobsName}</List.Item>
+            <List.Item>{adsDetails.description}</List.Item>
+          </List>
+        </Segment>
+        <JobAdvertisementDetailCard />
+      </Segment.Group>
     </div>
   );
 }

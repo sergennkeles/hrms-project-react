@@ -13,7 +13,7 @@ export default function JobAdvertisementConfirm() {
     jobadvertisementService
       .getById(id)
       .then((result) => setPassiveAdvertisements(result.data.data));
-  }, []);
+  }, [id]);
   console.log(passiveAdvertisements);
   let systemUserService = new SystemUserService();
   return (
@@ -26,8 +26,10 @@ export default function JobAdvertisementConfirm() {
               {" "}
               {passiveAdvertisements.employer?.companyName}
             </Card.Header>
-            <Card.Meta> </Card.Meta>
-            <Card.Description></Card.Description>
+            <Card.Meta>{passiveAdvertisements.employer?.webSite} </Card.Meta>
+            <Card.Description>
+              {passiveAdvertisements.job?.jobsName}
+            </Card.Description>
           </Card.Content>
           <Card.Content extra>
             <div className="ui two buttons">

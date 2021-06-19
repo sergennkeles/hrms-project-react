@@ -35,13 +35,6 @@ export default function JobAdvertisementAddForm() {
     });
   }, []);
 
-  const location = cities.map((city) => ({
-    key: city.id,
-    value: city.cityName,
-    flag: "tr",
-    text: city.cityName,
-  }));
-
   const jobAdvertisementService = new JobAdvertisementService();
 
   const formik = useFormik({
